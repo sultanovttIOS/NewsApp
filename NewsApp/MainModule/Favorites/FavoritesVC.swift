@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FavotitesVC.swift
 //  NewsApp
 //
 //  Created by Alisher Sultanov on 3/10/24.
@@ -7,13 +7,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class FavoritesVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
     }
 
-
 }
-
