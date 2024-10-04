@@ -9,4 +9,5 @@ import UIKit
 
 protocol NetworkServiceProtocol: Actor {
     
+    func getNews(nextPage: String?) async throws -> NewsResponse
 }

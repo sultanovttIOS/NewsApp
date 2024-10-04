@@ -10,6 +10,7 @@ import Foundation
 struct NewsResponse: Decodable {
     let totalResults: Int
     let results: [News]
+    let nextPage: String
 }
 
 struct News: Decodable {
@@ -20,8 +21,7 @@ struct News: Decodable {
 //    let creator: [String]
     let description: String
     let pubDate: String
-    let imageURL: String
-//    let sourceId: String
+    let imageUrl: String
     let sourceName: String
 //    let sourceIcon: String
 }

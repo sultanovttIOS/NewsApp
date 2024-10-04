@@ -9,4 +9,7 @@ import Foundation
 
 protocol NewsModelProtocol {
     var news: [News] { get }
+    
+    func updateNews(append: Bool) async throws
+
 }

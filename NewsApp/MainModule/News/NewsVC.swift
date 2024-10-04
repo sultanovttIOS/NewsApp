@@ -14,13 +14,13 @@ final class NewsVC: UIViewController {
     
     private var news: [News] = [
         News(articleId: "1", description: "dwdwd", pubDate: "12.3222.",
-             imageURL: "example",
+             imageUrl: "example",
              sourceName: "Acccc"),
         News(articleId: "2", description: "dwdwd", pubDate: "12.3222.",
-             imageURL: "example",
+             imageUrl: "example",
              sourceName: "Acccc"),
         News(articleId: "3", description: "dwdwd", pubDate: "12.3222.",
-             imageURL: "example",
+             imageUrl: "example",
              sourceName: "Acccc")
     ]
     
@@ -41,12 +41,25 @@ final class NewsVC: UIViewController {
         super.viewDidLoad()
         title = "News"
         collectionViewConfigure()
+        updateNews()
     }
     
     private func collectionViewConfigure() {
         self.newsView.newsCollectionView.delegate = self
         self.newsView.newsCollectionView.dataSource = self
         self.newsView.newsCollectionView.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.reuseID)
+    }
+    
+    private func updateNews(append: Bool = false) {
+        Task {
+            
+            do {
+                try await model.updateNews(append: append)
+                print(model.news)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

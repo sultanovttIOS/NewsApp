@@ -96,7 +96,7 @@ final class NewsCell: UICollectionViewCell {
         authorLabel.text = news.sourceName
         dateLabel.text = news.pubDate
         descLabel.text = news.description
-        imageView.image = UIImage(named: news.imageURL)
+        imageView.image = UIImage(named: news.imageUrl)
     }
     
     func fillImage(image: UIImage?) {

@@ -44,8 +44,50 @@ actor NetworkService: NetworkServiceProtocol {
     )
     
     private let baseURL = "https://newsdata.io/api/1/news?apikey=pub_55238d2c462decee315a235f19ef3268c3b02&q=food&category=food"
-    
+
     // MARK: Get news
     
-    
+    func getNews(nextPage: String?) async throws -> NewsResponse {
+        guard var url = URL(string: baseURL) else {
+            logger.error("Invalid server URL: \(self.baseURL)")
+            throw APIError.invalidServerURL
+        }
+        
+        if let nextPage = nextPage {
+            url.append(queryItems: [URLQueryItem(name: "page", value: nextPage)])
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+ 
+        logger.info("Starting request: \(url.absoluteString)")
+        
+        let (data, response) = try await session.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            logger.error("API response is not HTTP response")
+            throw APIError.notHTTPResponse
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            var message = "Unexpected status code: \(httpResponse.statusCode)"
+            if let serverMessage = String(data: data, encoding: .utf8) {
+                message += "\n\(serverMessage)"
+            }
+            logger.error("\(message)")
+            throw APIError.unexpectedStatusCode
+        }
+        
+        let newsResponse: NewsResponse
+        do {
+            newsResponse = try decoder.decode(NewsResponse.self, from: data)
+            logger.info("Received tours for request: \(url.absoluteString)")
+        } catch {
+            logger.error("Could not decode data for request: \(url.absoluteString)\n\(error)")
+            throw APIError.decodingError
+        }
+        
+        return newsResponse
+    }
 }
