@@ -49,21 +49,27 @@ final class NewsModel: NewsModelProtocol {
     
     func saveNews(_ news: [News], context: NSManagedObjectContext) {
         for newsItem in news {
-            let entity = NewsEntity(context: context)
-            entity.articleID = newsItem.articleId
-            entity.desc = newsItem.description
-            entity.pubDate = newsItem.pubDate
-            entity.imageUrl = newsItem.imageUrl
-            entity.sourceName = newsItem.sourceName
+            let fetchRequest: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "articleID == %@", newsItem.articleId)
+
+            let count = (try? context.count(for: fetchRequest)) ?? 0
+            if count == 0 {
+                let entity = NewsEntity(context: context)
+                entity.articleID = newsItem.articleId
+                entity.desc = newsItem.description
+                entity.pubDate = newsItem.pubDate
+                entity.imageUrl = newsItem.imageUrl
+                entity.sourceName = newsItem.sourceName
+            }
         }
-        
+
         do {
             try context.save()
-            print("Succesfully saved news!")
         } catch {
             print("Failed to save news: \(error)")
         }
     }
+
     
     func fetchSavedNews() -> [NewsEntity] {
         let context = persistenceController.container.viewContext

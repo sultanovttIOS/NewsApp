@@ -17,10 +17,11 @@ final class NewsCell: UICollectionViewCell {
 
     //MARK: UI components
     
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleAspectFit
         view.layer.cornerRadius = 8
+        view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -86,10 +87,6 @@ final class NewsCell: UICollectionViewCell {
         authorLabel.text = news.sourceName
         dateLabel.text = news.pubDate
         descLabel.text = news.desc
-        
-        if let image = news.imageUrl {
-            imageView.image = UIImage(named: image)
-        }
     }
     
     func fillImage(image: UIImage?) {

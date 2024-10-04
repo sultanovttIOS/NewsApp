@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class NewsVC: UIViewController {
-
+    
     private lazy var newsView = NewsView()
     private let model: NewsModelProtocol
     private var isAllNewsLoaded = false
@@ -24,7 +25,7 @@ final class NewsVC: UIViewController {
             }
         }
     }
-
+    
     init(model: NewsModelProtocol) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -42,39 +43,46 @@ final class NewsVC: UIViewController {
         super.viewDidLoad()
         title = "News"
         collectionViewConfigure()
-        updateNews()
+        
+        if model.newsFromLocal.isEmpty {
+             updateNews()
+         } else {
+             self.newsView.newsCollectionView.reloadData()
+         }
     }
     
     private func collectionViewConfigure() {
         self.newsView.newsCollectionView.delegate = self
         self.newsView.newsCollectionView.dataSource = self
-        self.newsView.newsCollectionView.register(NewsCell.self, forCellWithReuseIdentifier: NewsCell.reuseID)
+        self.newsView.newsCollectionView.register(
+            NewsCell.self,
+            forCellWithReuseIdentifier: NewsCell.reuseID)
     }
     
     private func updateNews(append: Bool = false) {
-        guard !isLoadingNews else { return }
         isLoading = true
+        
+        guard !isLoadingNews else { return }
         isLoadingNews = true
         
         Task {
             defer {
-                DispatchQueue.main.async {
-                    self.isLoading = false
-                    self.isLoadingNews = false
-                }
+                self.isLoading = false
+                self.isLoadingNews = false
             }
+            
             do {
                 let oldCount = model.newsFromLocal.count
                 try await model.updateNews(append: append)
                 let newCount = model.newsFromLocal.count
-
+                
                 if newCount == oldCount {
                     isAllNewsLoaded = true
                 }
                 
                 DispatchQueue.main.async {
                     self.newsView.newsCollectionView.reloadData()
-                    print(self.model.newsFromLocal.count)
+                    print("News count: \(self.model.newsFromLocal.count)")
                 }
             } catch {
                 print(error.localizedDescription)
@@ -99,6 +107,12 @@ extension NewsVC: UICollectionViewDataSource {
                 for: indexPath) as! NewsCell
             let news = model.newsFromLocal[indexPath.item]
             cell.fill(news: news)
+            
+            if let imageUrlString = news.imageUrl,
+               let imageUrl = URL(string: imageUrlString) {
+                cell.imageView.kf.setImage(with: imageUrl)
+            }
+            
             return cell
         }
         return UICollectionViewCell()
@@ -110,9 +124,11 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
+        
         if collectionView == newsView.newsCollectionView,
            indexPath.item == model.newsFromLocal.count - 1,
-           !isLoadingNews, !isAllNewsLoaded {
+           !isLoadingNews,
+           !isAllNewsLoaded {
             updateNews(append: true)
         }
     }

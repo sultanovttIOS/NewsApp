@@ -16,13 +16,11 @@ struct NewsResponse: Decodable {
 struct News: Decodable {
     
     let articleId: String
-//    let title: String
-//    let link: String
-//    let creator: [String]
-    let description: String
-    let pubDate: String
+    let title: String?
+    let link: String?
+    let description: String?
+    let pubDate: String?
     let imageUrl: String?
-    let sourceName: String
-//    let sourceIcon: String
+    let sourceName: String?
 }
 
