@@ -56,6 +56,8 @@ final class NewsModel: NewsModelProtocol {
             if count == 0 {
                 let entity = NewsEntity(context: context)
                 entity.articleID = newsItem.articleId
+                entity.title = newsItem.title
+                entity.link = newsItem.link
                 entity.desc = newsItem.description
                 entity.pubDate = newsItem.pubDate
                 entity.imageUrl = newsItem.imageUrl
@@ -65,6 +67,7 @@ final class NewsModel: NewsModelProtocol {
 
         do {
             try context.save()
+            print("Succesfully saved in CoreData \(news)")
         } catch {
             print("Failed to save news: \(error)")
         }
