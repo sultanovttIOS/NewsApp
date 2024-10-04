@@ -32,7 +32,9 @@ final class DetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Details"
+        
         detailView.fill(news: news)
+        
         Task {
             if let imageUrlString = news.imageUrl,
                let imageURL = URL(string: imageUrlString) {
@@ -42,5 +44,19 @@ final class DetailVC: UIViewController {
                 detailView.fillImage(image: UIImage(named: ""))
             }
         }
+        
+        detailView.linkButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.onTap()
+        }, for: .touchUpInside)
+    }
+    
+    private func onTap() {
+        guard let urlString = news.link,
+              let url = URL(string: urlString) else {
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }

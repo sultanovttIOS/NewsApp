@@ -9,6 +9,10 @@ import UIKit
 
 final class DetailView: UIView {
     
+    // MARK: Properties
+    
+    var onTap: (() -> Void)?
+    
     // MARK: UI Components
         
     private let imageView: UIImageView = {
@@ -52,17 +56,18 @@ final class DetailView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    private let linkLabel: UILabel = {
-        let view = UILabel()
-        view.font = .systemFont(ofSize: 12, weight: .medium)
-        view.textColor = .link
-        view.numberOfLines = 0
-        view.textAlignment = .left
-        view.lineBreakMode = .byWordWrapping
+
+    let linkButton: UIButton = {
+        let view = UIButton()
+        view.titleLabel?.textAlignment = .left
+        view.titleLabel?.lineBreakMode = .byWordWrapping
+        view.titleLabel?.numberOfLines = 0
+        view.titleLabel?.font = .systemFont(ofSize: 12, weight: .medium)
+        view.setTitleColor(.link, for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+
     
     // MARK: Lifecycle
     
@@ -82,7 +87,7 @@ final class DetailView: UIView {
         addSubview(authorLabel)
         addSubview(titleLabel)
         addSubview(descLabel)
-        addSubview(linkLabel)
+        addSubview(linkButton)
     }
     
     private func setConstraints() {
@@ -107,9 +112,9 @@ final class DetailView: UIView {
             descLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
             descLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
             
-            linkLabel.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 20),
-            linkLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
-            linkLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
+            linkButton.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 20),
+            linkButton.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            linkButton.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
         ])
     }
     
@@ -117,7 +122,7 @@ final class DetailView: UIView {
         authorLabel.text = news.sourceName
         titleLabel.text = news.title
         descLabel.text = news.desc
-        linkLabel.text = news.link
+        linkButton.setTitle(news.link, for: .normal)
     }
     
     func fillImage(image: UIImage?) {
