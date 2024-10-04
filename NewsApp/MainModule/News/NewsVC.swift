@@ -11,19 +11,18 @@ final class NewsVC: UIViewController {
 
     private lazy var newsView = NewsView()
     private let model: NewsModelProtocol
-    
-    private var news: [News] = [
-        News(articleId: "1", description: "dwdwd", pubDate: "12.3222.",
-             imageUrl: "example",
-             sourceName: "Acccc"),
-        News(articleId: "2", description: "dwdwd", pubDate: "12.3222.",
-             imageUrl: "example",
-             sourceName: "Acccc"),
-        News(articleId: "3", description: "dwdwd", pubDate: "12.3222.",
-             imageUrl: "example",
-             sourceName: "Acccc")
-    ]
-    
+    private var isLoading = false {
+        didSet {
+            DispatchQueue.main.async {
+                if self.isLoading {
+                    self.newsView.activityIndicator.startAnimating()
+                } else {
+                    self.newsView.activityIndicator.stopAnimating()
+                }
+            }
+        }
+    }
+
     init(model: NewsModelProtocol) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -51,11 +50,17 @@ final class NewsVC: UIViewController {
     }
     
     private func updateNews(append: Bool = false) {
+        isLoading = true
+
         Task {
-            
+            defer {
+                isLoading = false
+            }
             do {
                 try await model.updateNews(append: append)
-                print(model.news)
+                DispatchQueue.main.async {
+                    self.newsView.newsCollectionView.reloadData()
+                }
             } catch {
                 print(error.localizedDescription)
             }
@@ -67,8 +72,7 @@ extension NewsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-//        return model.news.count
-        return news.count
+        return model.news.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -78,8 +82,7 @@ extension NewsVC: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: NewsCell.reuseID,
                 for: indexPath) as! NewsCell
-//            let news = model.news[indexPath.item]
-            let news = news[indexPath.item]
+            let news = model.news[indexPath.item]
             cell.fill(news: news)
             return cell
         }

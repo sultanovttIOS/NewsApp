@@ -21,6 +21,14 @@ final class NewsView: UIView {
         return view
     }()
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView()
+        view.hidesWhenStopped = true
+        view.style = .large
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     // MARK: Lifecycle
     
     init() {
@@ -42,6 +50,7 @@ final class NewsView: UIView {
     
     private func addSubviews() {
         addSubview(newsCollectionView)
+        addSubview(activityIndicator)
     }
     
     private func setUpConstraints() {
@@ -52,6 +61,10 @@ final class NewsView: UIView {
             newsCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             newsCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
+            activityIndicator.heightAnchor.constraint(equalToConstant: 20),
+            activityIndicator.widthAnchor.constraint(equalToConstant: 20),
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
     

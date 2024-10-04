@@ -48,18 +48,8 @@ final class NewsCell: UICollectionViewCell {
         view.font = .systemFont(ofSize: 13, weight: .regular)
         view.textColor = .gray
         view.textAlignment = .left
-        view.numberOfLines = 2
+        view.numberOfLines = 3
         view.lineBreakMode = .byWordWrapping
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private let moreLabel: UILabel = {
-        let view = UILabel()
-        view.text = String(localized: "Подробнее")
-        view.font = .systemFont(ofSize: 13, weight: .bold)
-        view.textColor = .black
-        view.textAlignment = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -96,11 +86,10 @@ final class NewsCell: UICollectionViewCell {
         authorLabel.text = news.sourceName
         dateLabel.text = news.pubDate
         descLabel.text = news.description
-        imageView.image = UIImage(named: news.imageUrl)
     }
     
     func fillImage(image: UIImage?) {
-        
+        imageView.image = image
     }
     
     //MARK: addSubviews
@@ -110,7 +99,6 @@ final class NewsCell: UICollectionViewCell {
         contentView.addSubview(authorLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(descLabel)
-        contentView.addSubview(moreLabel)
     }
     
     //MARK: Set Up Constraints
@@ -136,12 +124,7 @@ final class NewsCell: UICollectionViewCell {
             descLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 16),
             descLabel.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor),
             descLabel.trailingAnchor.constraint(equalTo: dateLabel.trailingAnchor),
-            
-            moreLabel.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 16),
-            moreLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                constant: -16),
-            moreLabel.widthAnchor.constraint(equalToConstant: 94),
-            moreLabel.heightAnchor.constraint(equalToConstant: 38),
+            descLabel.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
 }
