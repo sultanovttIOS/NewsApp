@@ -81,11 +81,15 @@ final class NewsCell: UICollectionViewCell {
         backgroundColor = .systemGray6
     }
     
-    func fill(news: News) {
-        newsID = news.articleId
+    func fill(news: NewsEntity) {
+        newsID = news.articleID
         authorLabel.text = news.sourceName
         dateLabel.text = news.pubDate
-        descLabel.text = news.description
+        descLabel.text = news.desc
+        
+        if let image = news.imageUrl {
+            imageView.image = UIImage(named: image)
+        }
     }
     
     func fillImage(image: UIImage?) {

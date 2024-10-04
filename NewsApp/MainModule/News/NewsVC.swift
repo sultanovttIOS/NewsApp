@@ -52,18 +52,21 @@ final class NewsVC: UIViewController {
     }
     
     private func updateNews(append: Bool = false) {
-        isLoading = true
         guard !isLoadingNews else { return }
+        isLoading = true
         isLoadingNews = true
+        
         Task {
             defer {
-                isLoading = false
-                isLoadingNews = false
+                DispatchQueue.main.async {
+                    self.isLoading = false
+                    self.isLoadingNews = false
+                }
             }
             do {
-                let oldCount = model.news.count
+                let oldCount = model.newsFromLocal.count
                 try await model.updateNews(append: append)
-                let newCount = model.news.count
+                let newCount = model.newsFromLocal.count
 
                 if newCount == oldCount {
                     isAllNewsLoaded = true
@@ -71,6 +74,7 @@ final class NewsVC: UIViewController {
                 
                 DispatchQueue.main.async {
                     self.newsView.newsCollectionView.reloadData()
+                    print(self.model.newsFromLocal.count)
                 }
             } catch {
                 print(error.localizedDescription)
@@ -83,7 +87,7 @@ extension NewsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return model.news.count
+        return model.newsFromLocal.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -93,7 +97,7 @@ extension NewsVC: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: NewsCell.reuseID,
                 for: indexPath) as! NewsCell
-            let news = model.news[indexPath.item]
+            let news = model.newsFromLocal[indexPath.item]
             cell.fill(news: news)
             return cell
         }
@@ -107,7 +111,7 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         if collectionView == newsView.newsCollectionView,
-           indexPath.item == model.news.count - 1,
+           indexPath.item == model.newsFromLocal.count - 1,
            !isLoadingNews, !isAllNewsLoaded {
             updateNews(append: true)
         }

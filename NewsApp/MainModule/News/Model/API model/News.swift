@@ -21,7 +21,7 @@ struct News: Decodable {
 //    let creator: [String]
     let description: String
     let pubDate: String
-    let imageUrl: String
+    let imageUrl: String?
     let sourceName: String
 //    let sourceIcon: String
 }
