@@ -11,6 +11,8 @@ final class NewsVC: UIViewController {
 
     private lazy var newsView = NewsView()
     private let model: NewsModelProtocol
+    private var isAllNewsLoaded = false
+    private var isLoadingNews = false
     private var isLoading = false {
         didSet {
             DispatchQueue.main.async {
@@ -51,13 +53,22 @@ final class NewsVC: UIViewController {
     
     private func updateNews(append: Bool = false) {
         isLoading = true
-
+        guard !isLoadingNews else { return }
+        isLoadingNews = true
         Task {
             defer {
                 isLoading = false
+                isLoadingNews = false
             }
             do {
+                let oldCount = model.news.count
                 try await model.updateNews(append: append)
+                let newCount = model.news.count
+
+                if newCount == oldCount {
+                    isAllNewsLoaded = true
+                }
+                
                 DispatchQueue.main.async {
                     self.newsView.newsCollectionView.reloadData()
                 }
@@ -92,4 +103,13 @@ extension NewsVC: UICollectionViewDataSource {
 
 extension NewsVC: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
+        if collectionView == newsView.newsCollectionView,
+           indexPath.item == model.news.count - 1,
+           !isLoadingNews, !isAllNewsLoaded {
+            updateNews(append: true)
+        }
+    }
 }
