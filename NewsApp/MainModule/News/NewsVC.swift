@@ -94,6 +94,8 @@ final class NewsVC: UIViewController {
     }
 }
 
+// MARK: UICollectionViewDataSource
+
 extension NewsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
@@ -108,6 +110,7 @@ extension NewsVC: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: NewsCell.reuseID,
                 for: indexPath) as! NewsCell
+            
             let news = model.newsFromLocal[indexPath.item]
             cell.fill(news: news)
             Task {
@@ -135,6 +138,7 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
            indexPath.item == model.newsFromLocal.count - 1,
            !isLoadingNews,
            !isAllNewsLoaded {
+            
             updateNews(append: true)
         }
     }
@@ -143,10 +147,14 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
                         didSelectItemAt indexPath: IndexPath) {
         
         if collectionView == newsView.newsCollectionView {
+            
             if indexPath.item <= model.newsFromLocal.count {
+                
                 let news = model.newsFromLocal[indexPath.item]
-                let vc = DetailVC(news: news)
-//                vc.hidesBottomBarWhenPushed = true
+                
+                let detailModel = DetailModel()
+                let vc = DetailVC(model: detailModel, news: news)
+                
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

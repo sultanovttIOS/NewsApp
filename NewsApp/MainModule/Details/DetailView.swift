@@ -8,13 +8,26 @@
 import UIKit
 
 final class DetailView: UIView {
-    
-    // MARK: Properties
-    
-    var onTap: (() -> Void)?
-    
+
     // MARK: UI Components
-        
+    
+    private let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsVerticalScrollIndicator = false
+        view.isScrollEnabled = true
+        view.isUserInteractionEnabled = true
+        return view
+    }()
+    
+    private let scrollContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let imageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
@@ -56,7 +69,7 @@ final class DetailView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     let linkButton: UIButton = {
         let view = UIButton()
         view.titleLabel?.textAlignment = .left
@@ -67,7 +80,6 @@ final class DetailView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
     
     // MARK: Lifecycle
     
@@ -83,19 +95,33 @@ final class DetailView: UIView {
     }
     
     private func addSubviews() {
-        addSubview(imageView)
-        addSubview(authorLabel)
-        addSubview(titleLabel)
-        addSubview(descLabel)
-        addSubview(linkButton)
+        addSubview(scrollView)
+        scrollView.addSubview(scrollContentView)
+        scrollContentView.addSubview(imageView)
+        scrollContentView.addSubview(authorLabel)
+        scrollContentView.addSubview(titleLabel)
+        scrollContentView.addSubview(descLabel)
+        scrollContentView.addSubview(linkButton)
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
             
-            imageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 40),
+
+            scrollContentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollContentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollContentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollContentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollContentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            scrollContentView.heightAnchor.constraint(equalToConstant: 1000),
+            
+            imageView.topAnchor.constraint(equalTo: scrollContentView.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: scrollContentView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: scrollContentView.trailingAnchor),
             imageView.heightAnchor.constraint(equalToConstant: 300),
             
             authorLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),

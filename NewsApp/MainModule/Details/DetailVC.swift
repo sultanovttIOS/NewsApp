@@ -8,15 +8,17 @@
 import UIKit
 
 final class DetailVC: UIViewController {
-
+    
     // MARK: Properties
     
     private lazy var detailView = DetailView()
     private let news: NewsEntity
+    private let model: DetailModelProtocol
     
     // MARK: Lifecycle
     
-    init(news: NewsEntity) {
+    init(model: DetailModelProtocol, news: NewsEntity) {
+        self.model = model
         self.news = news
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,9 +34,21 @@ final class DetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Details"
-        
-        detailView.fill(news: news)
-        
+        fill()
+        addAction()
+        updateFavoriteButton()
+    }
+    
+    private func addAction() {
+        detailView.linkButton.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            self.openSourceLink()
+        }, for: .touchUpInside)
+    }
+    
+    // MARK: Fill Detail
+    
+    private func fill() {
         Task {
             if let imageUrlString = news.imageUrl,
                let imageURL = URL(string: imageUrlString) {
@@ -45,18 +59,41 @@ final class DetailVC: UIViewController {
             }
         }
         
-        detailView.linkButton.addAction(UIAction { [weak self] _ in
-            guard let self = self else { return }
-            self.onTap()
-        }, for: .touchUpInside)
+        detailView.fill(news: news)
     }
     
-    private func onTap() {
+    // MARK: Like button state
+    
+    private func updateFavoriteButton() {
+        let isFavorite = model.isFavorite(news: news)
+        let buttonState = isFavorite ? "heart.fill" : "heart"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: buttonState),
+            style: .plain,
+            target: self,
+            action: #selector(likeButtonTapped))
+    }
+    
+    // MARK: Link open
+    
+    private func openSourceLink() {
         guard let urlString = news.link,
-              let url = URL(string: urlString) else {
-            return
+              let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url)
+    }
+    
+    // MARK: delete or add to Favorites
+    
+    @objc
+    private func likeButtonTapped() {
+        if model.isFavorite(news: news) {
+            model.removeFromFavorites(news: news)
+        } else {
+            model.addToFavorites(news: news)
         }
         
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        updateFavoriteButton()
     }
 }
+

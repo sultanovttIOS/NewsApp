@@ -89,6 +89,13 @@ final class NewsCell: UICollectionViewCell {
         descLabel.text = news.desc
     }
     
+    func fillFav(news: FavoritesEntity) {
+        newsID = news.articleID
+        authorLabel.text = news.sourceName
+        dateLabel.text = news.pubDate
+        descLabel.text = news.desc
+    }
+    
     func fillImage(image: UIImage?) {
         imageView.image = image
     }
