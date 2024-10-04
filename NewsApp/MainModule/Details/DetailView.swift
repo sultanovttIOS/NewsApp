@@ -24,7 +24,8 @@ final class DetailView: UIView {
         let view = UILabel()
         view.font = .systemFont(ofSize: 16, weight: .medium)
         view.textColor = .black
-        view.numberOfLines = 1
+        view.numberOfLines = 0
+        view.lineBreakMode = .byWordWrapping
         view.textAlignment = .left
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -36,6 +37,7 @@ final class DetailView: UIView {
         view.textColor = .black
         view.numberOfLines = 0
         view.textAlignment = .left
+        view.lineBreakMode = .byWordWrapping
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -44,18 +46,20 @@ final class DetailView: UIView {
         let view = UILabel()
         view.font = .systemFont(ofSize: 16, weight: .bold)
         view.textColor = .darkGray
-        view.numberOfLines = 1
+        view.numberOfLines = 0
         view.textAlignment = .left
+        view.lineBreakMode = .byWordWrapping
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private let linkLabel: UILabel = {
         let view = UILabel()
-        view.font = .systemFont(ofSize: 16, weight: .regular)
+        view.font = .systemFont(ofSize: 12, weight: .medium)
         view.textColor = .link
-        view.numberOfLines = 1
+        view.numberOfLines = 0
         view.textAlignment = .left
+        view.lineBreakMode = .byWordWrapping
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -90,28 +94,33 @@ final class DetailView: UIView {
             imageView.heightAnchor.constraint(equalToConstant: 300),
             
             authorLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
-            authorLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            authorLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            authorLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            authorLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             authorLabel.heightAnchor.constraint(equalToConstant: 20),
             
             titleLabel.topAnchor.constraint(equalTo: authorLabel.bottomAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 20),
             
             descLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            descLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            descLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            descLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            descLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
             
             linkLabel.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 20),
-            linkLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            linkLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            linkLabel.heightAnchor.constraint(equalToConstant: 20)
+            linkLabel.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
+            linkLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
         ])
     }
     
     func fill(news: NewsEntity) {
         authorLabel.text = news.sourceName
-//        titleLabel.text = news.t
+        titleLabel.text = news.title
+        descLabel.text = news.desc
+        linkLabel.text = news.link
+    }
+    
+    func fillImage(image: UIImage?) {
+        imageView.image = image
     }
 }

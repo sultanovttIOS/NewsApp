@@ -6,10 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		CEC0F1052CAFF0EC002A972D /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = CEC0F1042CAFF0EC002A972D /* Kingfisher */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		CEC0F03E2CAEC970002A972D /* NewsApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewsApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -40,7 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEC0F1052CAFF0EC002A972D /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +78,6 @@
 			);
 			name = NewsApp;
 			packageProductDependencies = (
-				CEC0F1042CAFF0EC002A972D /* Kingfisher */,
 			);
 			productName = NewsApp;
 			productReference = CEC0F03E2CAEC970002A972D /* NewsApp.app */;
@@ -114,7 +108,6 @@
 			mainGroup = CEC0F0352CAEC970002A972D;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				CEC0F1032CAFF0EC002A972D /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CEC0F03F2CAEC970002A972D /* Products */;
@@ -350,25 +343,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		CEC0F1032CAFF0EC002A972D /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
-			requirement = {
-				kind = exactVersion;
-				version = 8.0.3;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		CEC0F1042CAFF0EC002A972D /* Kingfisher */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CEC0F1032CAFF0EC002A972D /* XCRemoteSwiftPackageReference "Kingfisher" */;
-			productName = Kingfisher;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CEC0F0362CAEC970002A972D /* Project object */;
 }

@@ -11,5 +11,4 @@ protocol NewsModelProtocol {
     var newsFromLocal: [NewsEntity] { get }
     
     func updateNews(append: Bool) async throws
-
 }

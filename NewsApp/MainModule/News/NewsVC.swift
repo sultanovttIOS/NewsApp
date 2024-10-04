@@ -43,7 +43,8 @@ final class NewsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "News"
+        navigationItem.title = "News"
+        
         collectionViewConfigure()
         
         if model.newsFromLocal.isEmpty {
@@ -109,12 +110,15 @@ extension NewsVC: UICollectionViewDataSource {
                 for: indexPath) as! NewsCell
             let news = model.newsFromLocal[indexPath.item]
             cell.fill(news: news)
-            
-            if let imageUrlString = news.imageUrl,
-               let imageUrl = URL(string: imageUrlString) {
-                cell.imageView.kf.setImage(with: imageUrl)
+            Task {
+                if let imageUrlString = news.imageUrl,
+                   let imageURL = URL(string: imageUrlString) {
+                    let image = await NetworkService.shared.getImage(from: imageURL)
+                    cell.fillImage(image: image)
+                } else {
+                    cell.fillImage(image: UIImage(named: ""))
+                }
             }
-            
             return cell
         }
         return UICollectionViewCell()
@@ -142,7 +146,7 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
             if indexPath.item <= model.newsFromLocal.count {
                 let news = model.newsFromLocal[indexPath.item]
                 let vc = DetailVC(news: news)
-                vc.hidesBottomBarWhenPushed = true
+//                vc.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(vc, animated: true)
             }
         }

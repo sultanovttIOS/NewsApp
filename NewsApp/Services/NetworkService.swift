@@ -45,6 +45,8 @@ actor NetworkService: NetworkServiceProtocol {
     
     private let baseURL = "https://newsdata.io/api/1/news?apikey=pub_55238d2c462decee315a235f19ef3268c3b02&q=food&category=food"
 
+    private let imageCache = NSCache<NSString, CacheImageObject>()
+
     // MARK: Get news
     
     func getNews(nextPage: String?) async throws -> NewsResponse {
@@ -89,5 +91,32 @@ actor NetworkService: NetworkServiceProtocol {
         }
         
         return newsResponse
+    }
+    
+    // MARK: Image Cache
+    
+    func getImage(from url: URL) async -> UIImage? {
+        if let cached = imageCache[url] {
+            switch cached {
+            case .inProgress(let task):
+                return try? await task.value
+            case .ready(let image):
+                logger.info("Got image from the cache for url: \(url.absoluteString)")
+                return image
+            }
+        }
+        
+        let task = Task<UIImage?, Error> {
+            logger.info("Starting request: \(url.absoluteString)")
+            let (data, _) = try await session.data(from: url)
+            let image = UIImage(data: data)
+            return image
+        }
+        imageCache[url] = .inProgress(task)
+        let image = try? await task.value
+        if let image {
+            imageCache[url] = .ready(image)
+        }
+        return image
     }
 }

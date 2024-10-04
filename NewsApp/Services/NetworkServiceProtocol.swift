@@ -10,4 +10,6 @@ import UIKit
 protocol NetworkServiceProtocol: Actor {
     
     func getNews(nextPage: String?) async throws -> NewsResponse
+    func getImage(from url: URL) async -> UIImage?
+
 }

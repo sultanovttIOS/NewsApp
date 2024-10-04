@@ -31,15 +31,16 @@ final class DetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    private func fill() {
-        
+        navigationItem.title = "Details"
+        detailView.fill(news: news)
+        Task {
+            if let imageUrlString = news.imageUrl,
+               let imageURL = URL(string: imageUrlString) {
+                let image = await NetworkService.shared.getImage(from: imageURL)
+                detailView.fillImage(image: image)
+            } else {
+                detailView.fillImage(image: UIImage(named: ""))
+            }
+        }
     }
 }
