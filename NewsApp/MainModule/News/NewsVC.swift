@@ -26,6 +26,8 @@ final class NewsVC: UIViewController {
         }
     }
     
+    // MARK: Lifecycle
+    
     init(model: NewsModelProtocol) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
@@ -130,6 +132,19 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
            !isLoadingNews,
            !isAllNewsLoaded {
             updateNews(append: true)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        didSelectItemAt indexPath: IndexPath) {
+        
+        if collectionView == newsView.newsCollectionView {
+            if indexPath.item <= model.newsFromLocal.count {
+                let news = model.newsFromLocal[indexPath.item]
+                let vc = DetailVC(news: news)
+                vc.hidesBottomBarWhenPushed = true
+                navigationController?.pushViewController(vc, animated: true)
+            }
         }
     }
 }
