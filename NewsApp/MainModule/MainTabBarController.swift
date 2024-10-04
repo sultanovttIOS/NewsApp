@@ -43,7 +43,8 @@ final class MainTabBarController: UITabBarController {
             )
             newsVC.tabBarItem = newsTabBarItem
     
-            let favoritesVC = FavoritesVC()
+            let favModel = FavoritesModel()
+            let favoritesVC = FavoritesVC(model: favModel)
             let favoritesTabBarItem = UITabBarItem(
                 title: String(localized: "Favorites"),
                 image: UIImage(systemName: "heart"),
