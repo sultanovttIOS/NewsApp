@@ -12,7 +12,6 @@ final class NewsCell: UICollectionViewCell {
     //MARK: Properties
     
     static let reuseID = String(describing: NewsCell.self)
-    var onTap: (() -> Void)?
     private var newsID: String?
 
     //MARK: UI components

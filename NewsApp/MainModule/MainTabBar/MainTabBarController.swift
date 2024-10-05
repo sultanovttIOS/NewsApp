@@ -17,11 +17,16 @@ final class MainTabBarController: UITabBarController {
         setUpUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
     // MARK: Set up UI
     
     private func setUpUI() {
         tabBar.tintColor = .purple
-        tabBar.unselectedItemTintColor = .black
+        tabBar.unselectedItemTintColor = .gray
         tabBar.backgroundColor = .white
         setUpTabs()
     }
@@ -51,11 +56,11 @@ final class MainTabBarController: UITabBarController {
     
             viewControllers?.forEach { viewController in
                 viewController.tabBarItem.setTitleTextAttributes(
-                    [.font: UIFont.systemFont(ofSize: 13, weight: .bold) as Any],
+                    [.font: UIFont.systemFont(ofSize: 14, weight: .medium) as Any],
                     for: .normal
                 )
                 viewController.tabBarItem.setTitleTextAttributes(
-                    [.font: UIFont.systemFont(ofSize: 13, weight: .bold) as Any],
+                    [.font: UIFont.systemFont(ofSize: 14, weight: .medium) as Any],
                     for: .selected
                 )
             }
@@ -64,11 +69,11 @@ final class MainTabBarController: UITabBarController {
     private func applyTabBarItemAttributes() {
         viewControllers?.forEach { viewController in
             viewController.tabBarItem.setTitleTextAttributes(
-                [.font: UIFont.systemFont(ofSize: 14, weight: .bold) as Any],
+                [.font: UIFont.systemFont(ofSize: 14, weight: .medium) as Any],
                 for: .normal
             )
             viewController.tabBarItem.setTitleTextAttributes(
-                [.font: UIFont.systemFont(ofSize: 14, weight: .bold) as Any],
+                [.font: UIFont.systemFont(ofSize: 14, weight: .medium) as Any],
                 for: .selected
             )
         }

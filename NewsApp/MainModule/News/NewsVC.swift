@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Kingfisher
 
 final class NewsVC: UIViewController {
     
@@ -43,8 +42,6 @@ final class NewsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "News"
-        
         collectionViewConfigure()
         
         if model.newsFromLocal.isEmpty {

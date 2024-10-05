@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="24A335" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="FavoritesEntity" representedClassName="FavoritesEntity" isAbstract="YES" syncable="YES" codeGenerationType="class">
+    <entity name="FavoritesEntity" representedClassName="FavoritesEntity" syncable="YES" codeGenerationType="class">
         <attribute name="articleID" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
@@ -9,7 +9,7 @@
         <attribute name="sourceName" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="NewsEntity" representedClassName="NewsEntity" isAbstract="YES" syncable="YES" codeGenerationType="class">
+    <entity name="NewsEntity" representedClassName="NewsEntity" syncable="YES" codeGenerationType="class">
         <attribute name="articleID" optional="YES" attributeType="String"/>
         <attribute name="desc" optional="YES" attributeType="String"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>

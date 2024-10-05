@@ -38,6 +38,11 @@ final class DetailVC: UIViewController {
         userInteraction()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     private func userInteraction() {
         addAction()
         updateFavoriteButton()
