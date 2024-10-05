@@ -35,13 +35,17 @@ final class DetailVC: UIViewController {
         super.viewDidLoad()
         navigationItem.title = "Details"
         fill()
+        userInteraction()
+    }
+    
+    private func userInteraction() {
         addAction()
         updateFavoriteButton()
     }
     
     private func addAction() {
         detailView.linkButton.addAction(UIAction { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
             self.openSourceLink()
         }, for: .touchUpInside)
     }

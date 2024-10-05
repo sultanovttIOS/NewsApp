@@ -134,7 +134,6 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         
-//        if collectionView == newsView.newsCollectionView,
            if indexPath.item >= model.newsFromLocal.count - 2,
            !isLoadingNews,
            !isAllNewsLoaded {

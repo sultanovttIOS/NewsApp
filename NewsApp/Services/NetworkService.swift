@@ -101,13 +101,13 @@ actor NetworkService: NetworkServiceProtocol {
             case .inProgress(let task):
                 return try? await task.value
             case .ready(let image):
-                logger.info("Got image from the cache for url: \(url.absoluteString)")
+                logger.info("Got image from the cache")
                 return image
             }
         }
         
         let task = Task<UIImage?, Error> {
-            logger.info("Starting request: \(url.absoluteString)")
+            logger.info("Starting request for imege: \(url.absoluteString)")
             let (data, _) = try await session.data(from: url)
             let image = UIImage(data: data)
             return image

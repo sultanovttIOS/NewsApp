@@ -23,7 +23,7 @@ final class DetailView: UIView {
     private let scrollContentView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
-        view.isUserInteractionEnabled = false
+        view.isUserInteractionEnabled = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -74,6 +74,8 @@ final class DetailView: UIView {
         view.titleLabel?.textAlignment = .left
         view.titleLabel?.lineBreakMode = .byWordWrapping
         view.titleLabel?.numberOfLines = 0
+//        view.titleLabel?.isUserInteractionEnabled = true
+//        view.isUserInteractionEnabled = true
         view.titleLabel?.font = .systemFont(ofSize: 12, weight: .medium)
         view.setTitleColor(.link, for: .normal)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -138,8 +140,10 @@ final class DetailView: UIView {
             descLabel.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
             
             linkButton.topAnchor.constraint(equalTo: descLabel.bottomAnchor, constant: 20),
-            linkButton.leadingAnchor.constraint(equalTo: authorLabel.leadingAnchor),
-            linkButton.trailingAnchor.constraint(equalTo: authorLabel.trailingAnchor),
+            linkButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            linkButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+//            linkButton.heightAnchor.constraint(equalToConstant: 50)
+            
         ])
     }
     
