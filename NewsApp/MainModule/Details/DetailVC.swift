@@ -55,7 +55,7 @@ final class DetailVC: UIViewController {
                 let image = await NetworkService.shared.getImage(from: imageURL)
                 detailView.fillImage(image: image)
             } else {
-                detailView.fillImage(image: UIImage(named: ""))
+                detailView.fillImage(image: UIImage(named: "example"))
             }
         }
         
@@ -73,6 +73,7 @@ final class DetailVC: UIViewController {
             style: .plain,
             target: self,
             action: #selector(likeButtonTapped))
+        navigationItem.rightBarButtonItem?.tintColor = .red
     }
     
     // MARK: Link open

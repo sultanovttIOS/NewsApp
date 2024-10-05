@@ -119,7 +119,7 @@ extension NewsVC: UICollectionViewDataSource {
                     let image = await NetworkService.shared.getImage(from: imageURL)
                     cell.fillImage(image: image)
                 } else {
-                    cell.fillImage(image: UIImage(named: ""))
+                    cell.fillImage(image: UIImage(named: "example"))
                 }
             }
             return cell
@@ -134,8 +134,8 @@ extension NewsVC: UICollectionViewDelegateFlowLayout {
                         willDisplay cell: UICollectionViewCell,
                         forItemAt indexPath: IndexPath) {
         
-        if collectionView == newsView.newsCollectionView,
-           indexPath.item == model.newsFromLocal.count - 1,
+//        if collectionView == newsView.newsCollectionView,
+           if indexPath.item >= model.newsFromLocal.count - 2,
            !isLoadingNews,
            !isAllNewsLoaded {
             

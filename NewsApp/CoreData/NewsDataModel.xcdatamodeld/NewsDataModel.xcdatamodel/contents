@@ -17,6 +17,5 @@
         <attribute name="pubDate" optional="YES" attributeType="String"/>
         <attribute name="sourceName" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="favoritesEntity" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FavoritesEntity"/>
     </entity>
 </model>

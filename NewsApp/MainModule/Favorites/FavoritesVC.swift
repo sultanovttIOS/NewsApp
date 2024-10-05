@@ -77,7 +77,7 @@ extension FavoritesVC: UICollectionViewDataSource {
                     let image = await NetworkService.shared.getImage(from: imageURL)
                     cell.fillImage(image: image)
                 } else {
-                    cell.fillImage(image: UIImage(named: ""))
+                    cell.fillImage(image: UIImage(named: "example"))
                 }
             }
             return cell
@@ -88,4 +88,14 @@ extension FavoritesVC: UICollectionViewDataSource {
 
 extension FavoritesVC: UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == favoritesView.favorCollectionView {
+            if indexPath.item <= model.favoritesNews.count {
+                
+                let favorite = model.favoritesNews[indexPath.item]
+                
+                
+            }
+        }
+    }
 }

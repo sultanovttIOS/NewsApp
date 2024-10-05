@@ -19,7 +19,7 @@ final class NewsCell: UICollectionViewCell {
     
     let imageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFit
+        view.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false

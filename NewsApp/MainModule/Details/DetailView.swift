@@ -30,8 +30,7 @@ final class DetailView: UIView {
     
     private let imageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFit
-        view.layer.cornerRadius = 12
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
