@@ -8,7 +8,7 @@
 import Foundation
 
 protocol DetailModelProtocol {
-    func addToFavorites(news: NewsEntity)
-    func removeFromFavorites(news: NewsEntity) 
-    func isFavorite(news: NewsEntity) -> Bool 
+    func addToFavorites(news: News)
+    func removeFromFavorites(news: News)
+    func isFavorite(news: News) -> Bool 
 }

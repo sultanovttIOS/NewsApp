@@ -82,18 +82,11 @@ final class NewsCell: UICollectionViewCell {
         backgroundColor = .systemGray6
     }
     
-    func fill(news: NewsEntity) {
-        newsID = news.articleID
+    func fill(news: News) {
+        newsID = news.articleId
         authorLabel.text = news.sourceName
         dateLabel.text = news.pubDate
-        descLabel.text = news.desc
-    }
-    
-    func fillFav(news: FavoritesEntity) {
-        newsID = news.articleID
-        authorLabel.text = news.sourceName
-        dateLabel.text = news.pubDate
-        descLabel.text = news.desc
+        descLabel.text = news.description
     }
     
     func fillImage(image: UIImage?) {

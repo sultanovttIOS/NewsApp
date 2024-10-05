@@ -8,7 +8,6 @@
 import Foundation
 
 protocol FavoritesModelProtocol {
-    var favoritesNews: [FavoritesEntity] { get }
-    func fetchFavoriteNews() -> [FavoritesEntity]
+    var favoritesNews: [News] { get }
     func fetchFavorites() 
 }

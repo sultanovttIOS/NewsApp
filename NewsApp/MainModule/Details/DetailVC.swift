@@ -12,12 +12,12 @@ final class DetailVC: UIViewController {
     // MARK: Properties
     
     private lazy var detailView = DetailView()
-    private let news: NewsEntity
+    private let news: News
     private let model: DetailModelProtocol
     
     // MARK: Lifecycle
     
-    init(model: DetailModelProtocol, news: NewsEntity) {
+    init(model: DetailModelProtocol, news: News) {
         self.model = model
         self.news = news
         super.init(nibName: nil, bundle: nil)

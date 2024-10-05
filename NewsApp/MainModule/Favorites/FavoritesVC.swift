@@ -70,7 +70,7 @@ extension FavoritesVC: UICollectionViewDataSource {
                 for: indexPath) as! NewsCell
             
             let news = model.favoritesNews[indexPath.item]
-            cell.fillFav(news: news)
+            cell.fill(news: news)
             Task {
                 if let imageUrlString = news.imageUrl,
                    let imageURL = URL(string: imageUrlString) {
@@ -92,9 +92,11 @@ extension FavoritesVC: UICollectionViewDelegateFlowLayout {
         if collectionView == favoritesView.favorCollectionView {
             if indexPath.item <= model.favoritesNews.count {
                 
-                let favorite = model.favoritesNews[indexPath.item]
+                let news = model.favoritesNews[indexPath.item]
                 
-                
+                let detailModel = DetailModel()
+                let vc = DetailVC(model: detailModel, news: news)
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

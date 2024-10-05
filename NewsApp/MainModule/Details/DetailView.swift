@@ -143,10 +143,10 @@ final class DetailView: UIView {
         ])
     }
     
-    func fill(news: NewsEntity) {
+    func fill(news: News) {
         authorLabel.text = news.sourceName
         titleLabel.text = news.title
-        descLabel.text = news.desc
+        descLabel.text = news.description
         linkButton.setTitle(news.link, for: .normal)
     }
     

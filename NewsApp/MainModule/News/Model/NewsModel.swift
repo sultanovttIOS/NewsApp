@@ -12,15 +12,15 @@ import UIKit
 final class NewsModel: NewsModelProtocol {
     
     // MARK: Properties
-
+    
     private let networkService: NetworkServiceProtocol
     private(set) var countOfAllNews = 0
     private var currentNextPage: String?
     private var persistenceController = PersistenceController.shared
-    private(set) var newsFromLocal: [NewsEntity] = []
+    private(set) var newsFromLocal: [News] = []
     
     // MARK: Lifecycle
-
+    
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
         self.newsFromLocal = fetchSavedNews()
@@ -39,7 +39,7 @@ final class NewsModel: NewsModelProtocol {
             newsResponse = try await networkService.getNews(nextPage: nil)
             countOfAllNews = newsResponse.totalResults
         }
-
+        
         let context = persistenceController.container.viewContext
         saveNews(newsResponse.results, context: context)
         
@@ -51,7 +51,7 @@ final class NewsModel: NewsModelProtocol {
         for newsItem in news {
             let fetchRequest: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "articleID == %@", newsItem.articleId)
-
+            
             let count = (try? context.count(for: fetchRequest)) ?? 0
             if count == 0 {
                 let entity = NewsEntity(context: context)
@@ -64,7 +64,7 @@ final class NewsModel: NewsModelProtocol {
                 entity.sourceName = newsItem.sourceName
             }
         }
-
+        
         do {
             try context.save()
             print("Succesfully saved in CoreData \(news)")
@@ -72,16 +72,25 @@ final class NewsModel: NewsModelProtocol {
             print("Failed to save news: \(error)")
         }
     }
-
     
-    func fetchSavedNews() -> [NewsEntity] {
+    func fetchSavedNews() -> [News] {
         let context = persistenceController.container.viewContext
         let request: NSFetchRequest<NewsEntity> = NewsEntity.fetchRequest()
         
         do {
-            let savedNews = try context.fetch(request)
+            let savedNewsEntities = try context.fetch(request)
             print("Succesfully fetched news from Core Data")
-            return savedNews
+            return savedNewsEntities.compactMap { entity in
+                // Преобразование NewsEntity в News
+                return News(
+                    articleId: entity.articleID ?? "",
+                    title: entity.title ?? "",
+                    link: entity.link ?? "",
+                    description: entity.desc ?? "",
+                    pubDate: entity.pubDate ?? "",
+                    imageUrl: entity.imageUrl ?? "",
+                    sourceName: entity.sourceName ?? "")
+            }
         } catch {
             print("Failed to fetch saved news: \(error)")
             return []

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol NewsModelProtocol {
-    var newsFromLocal: [NewsEntity] { get }
+    var newsFromLocal: [News] { get }
     
     func updateNews(append: Bool) async throws
 }

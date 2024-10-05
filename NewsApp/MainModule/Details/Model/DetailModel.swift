@@ -12,14 +12,14 @@ final class DetailModel: DetailModelProtocol {
     
     private var persistenceController = PersistenceController.shared
     
-    func addToFavorites(news: NewsEntity) {
+    func addToFavorites(news: News) {
         let context = persistenceController.container.viewContext
         
         let favorite = FavoritesEntity(context: context)
-        favorite.articleID = news.articleID
+        favorite.articleID = news.articleId
         favorite.title = news.title
         favorite.sourceName = news.sourceName
-        favorite.desc = news.desc
+        favorite.desc = news.description
         favorite.imageUrl = news.imageUrl
         favorite.link = news.link
         favorite.pubDate = news.pubDate
@@ -32,10 +32,10 @@ final class DetailModel: DetailModelProtocol {
         }
     }
 
-    func removeFromFavorites(news: NewsEntity) {
+    func removeFromFavorites(news: News) {
         let context = persistenceController.container.viewContext
         let fetchRequest: NSFetchRequest<FavoritesEntity> = FavoritesEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "articleID == %@", news.articleID ?? "0")
+        fetchRequest.predicate = NSPredicate(format: "articleID == %@", news.articleId)
 
         do {
             let results = try context.fetch(fetchRequest)
@@ -49,10 +49,10 @@ final class DetailModel: DetailModelProtocol {
         }
     }
     
-    func isFavorite(news: NewsEntity) -> Bool {
+    func isFavorite(news: News) -> Bool {
         let context = persistenceController.container.viewContext
         let fetchRequest: NSFetchRequest<FavoritesEntity> = FavoritesEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "articleID == %@", news.articleID ?? "0")
+        fetchRequest.predicate = NSPredicate(format: "articleID == %@", news.articleId)
 
         do {
             let results = try context.fetch(fetchRequest)

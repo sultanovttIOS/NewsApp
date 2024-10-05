@@ -13,37 +13,33 @@ final class FavoritesModel: FavoritesModelProtocol {
     // MARK: Properties
     
     private var persistenseController = PersistenceController.shared
-    private(set) var favoritesNews: [FavoritesEntity] = []
+    private(set) var favoritesNews: [News] = []
     
     // MARK: Lifecycle
     
     init() {
-        self.favoritesNews = fetchFavoriteNews()
+        fetchFavorites()
     }
     
     // MARK: Fetch
-    
-    func fetchFavoriteNews() -> [FavoritesEntity] {
-        let context = PersistenceController.shared.container.viewContext
-        let fetchRequest: NSFetchRequest<FavoritesEntity> = FavoritesEntity.fetchRequest()
-        
-        do {
-            let favorites = try context.fetch(fetchRequest)
-            favoritesNews = favorites
-            print("Succesfully fetched fav news from coreData! \(favorites)")
-            return favorites
-        } catch {
-            print("Failed to fetch favorites: \(error)")
-            return []
-        }
-    }
     
     func fetchFavorites() {
         let context = persistenseController.container.viewContext
         let fetchRequest: NSFetchRequest<FavoritesEntity> = FavoritesEntity.fetchRequest()
         
         do {
-            favoritesNews = try context.fetch(fetchRequest)
+            let favoritesEntities = try context.fetch(fetchRequest)
+            favoritesNews = favoritesEntities.map { favorite in
+                News(
+                    articleId: favorite.articleID ?? "",
+                    title: favorite.title ?? "",
+                    link: favorite.link ?? "",
+                    description: favorite.desc ?? "",
+                    pubDate: favorite.pubDate ?? "",
+                    imageUrl: favorite.imageUrl ?? "",
+                    sourceName: favorite.sourceName ?? ""
+                )
+            }
         } catch {
             print("Failed to fetch favorites: \(error)")
         }
