@@ -8,8 +8,6 @@
 import Foundation
 import CoreData
 
-import CoreData
-
 class PersistenceController {
     static let shared = PersistenceController()
     
